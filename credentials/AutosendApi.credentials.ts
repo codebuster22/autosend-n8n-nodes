@@ -46,7 +46,7 @@ export class AutosendApi implements ICredentialType {
 	test: ICredentialTestRequest = {
 		request: {
 			baseURL: 'https://api.autosend.com',
-			url: '/contacts',
+			url: '/v1/contacts',
 			method: 'GET',
 		},
 	};

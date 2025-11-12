@@ -28,7 +28,7 @@ export class Autosend implements INodeType {
 			},
 		],
 		requestDefaults: {
-			baseURL: 'https://api.autosend.com',
+			baseURL: 'https://api.autosend.com/v1',
 			headers: {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
