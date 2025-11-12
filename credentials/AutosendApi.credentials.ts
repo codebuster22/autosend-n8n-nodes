@@ -43,6 +43,8 @@ export class AutosendApi implements ICredentialType {
 		},
 	};
 
+	// Note: This endpoint may require a paid Autosend account
+	// If you get "Payment required" error, your API key is valid but account needs billing setup
 	test: ICredentialTestRequest = {
 		request: {
 			baseURL: 'https://api.autosend.com',
