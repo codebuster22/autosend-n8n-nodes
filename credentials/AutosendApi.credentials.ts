@@ -43,13 +43,23 @@ export class AutosendApi implements ICredentialType {
 		},
 	};
 
-	// Note: This endpoint may require a paid Autosend account
-	// If you get "Payment required" error, your API key is valid but account needs billing setup
+	// Test authentication by hitting base endpoint
+	// Success: Returns 404 "Route not found" (auth worked, route doesn't exist)
+	// Failure: Returns 401 "Authentication required" (invalid API key)
 	test: ICredentialTestRequest = {
 		request: {
 			baseURL: 'https://api.autosend.com',
-			url: '/v1/contacts',
+			url: '/v1/',
 			method: 'GET',
 		},
+		rules: [
+			{
+				type: 'responseCode',
+				properties: {
+					value: 404,
+					message: 'API key is valid',
+				},
+			},
+		],
 	};
 }
