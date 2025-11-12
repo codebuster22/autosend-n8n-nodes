@@ -44,19 +44,21 @@ export class AutosendApi implements ICredentialType {
 	};
 
 	// Test authentication by hitting base endpoint
-	// Success: Returns 404 "Route not found" (auth worked, route doesn't exist)
-	// Failure: Returns 401 "Authentication required" (invalid API key)
+	// Valid key: Returns {"success":false,"error":{"message":"Route not found"}}
+	// Invalid key: Returns {"success":false,"error":{"message":"Authentication required"}}
 	test: ICredentialTestRequest = {
 		request: {
 			baseURL: 'https://api.autosend.com',
 			url: '/v1/',
 			method: 'GET',
+			ignoreHttpStatusErrors: true,
 		},
 		rules: [
 			{
-				type: 'responseCode',
+				type: 'responseSuccessBody',
 				properties: {
-					value: 404,
+					key: 'error.message',
+					value: 'Route not found',
 					message: 'API key is valid',
 				},
 			},
