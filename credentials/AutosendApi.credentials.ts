@@ -32,6 +32,24 @@ export class AutosendApi implements ICredentialType {
 			required: true,
 			description: 'API key from your Autosend account settings',
 		},
+		{
+			displayName: 'From Email (for testing)',
+			name: 'fromEmail',
+			type: 'string',
+			default: '',
+			required: true,
+			placeholder: 'noreply@yourdomain.com',
+			description: 'Email address to send test email from (must be verified in Autosend)',
+		},
+		{
+			displayName: 'Test Email Recipient',
+			name: 'testEmail',
+			type: 'string',
+			default: '',
+			required: true,
+			placeholder: 'your-email@example.com',
+			description: 'Email address where test email will be sent when testing credentials',
+		},
 	];
 
 	authenticate: IAuthenticateGeneric = {
@@ -43,13 +61,25 @@ export class AutosendApi implements ICredentialType {
 		},
 	};
 
-	// Test by calling base endpoint - expects 404 with "Route not found"
-	// This validates authentication without accessing any actual resources
+	// Test by sending actual email to verify API key and account are active
 	test: ICredentialTestRequest = {
 		request: {
 			baseURL: 'https://api.autosend.com',
-			url: '/v1/',
-			method: 'GET',
+			url: '/v1/mails/send',
+			method: 'POST',
+			body: {
+				from: {
+					email: '={{$credentials.fromEmail}}',
+					name: 'Autosend n8n Node',
+				},
+				to: {
+					email: '={{$credentials.testEmail}}',
+					name: 'Test User',
+				},
+				subject: 'Autosend Credential Test ✅',
+				html: '<h1>Success!</h1><p>Your Autosend credentials are working correctly. This is a test email sent from n8n.</p>',
+				text: 'Success! Your Autosend credentials are working correctly. This is a test email sent from n8n.',
+			},
 		},
 	};
 }
